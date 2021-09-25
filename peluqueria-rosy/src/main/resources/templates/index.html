@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/layout :: head">
+</head>
+<style>
+.cabecera {
+	margin-bottom: 0 !important;
+}
+</style>
+<body id="page-top">
+	<header th:replace="plantilla/layout :: header"> </header>
+	<!-- Masthead-->
+	<header class="masthead">
+		<div class="container">
+			<div class="masthead-subheading">Bienvenido a Peluquería Rosy</div>
+			<div class="masthead-heading text-uppercase">Nos alegra tenerte</div>
+			<a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger"
+				href="#services">Quiero saber más</a>
+		</div>
+	</header>
+	<!-- Portfolio Grid-->
+	<section class="page-section" id="services" style="padding: 2rem 0;">
+		<div class="container">
+			<div class="text-center">
+				<h2 class="section-heading text-uppercase">Nuestra galería</h2>
+				<h3 class="section-subheading text-muted">Descubre todos
+					nuestros secretos a través de imágenes</h3>
+			</div>
+
+		</div>
+	</section>
+	<div id="portfolio">
+		<div class="container-fluid p-0">
+
+			<div class="row no-gutters">
+				<div class="col-lg-4 col-sm-6">
+					<a class="portfolio-box"
+						href="assets/img/portfolio/01-thumbnail.jpg"> <img
+						class="img-fluid" src="assets/img/portfolio/01-thumbnail.jpg"
+						alt="" />
+						<div class="portfolio-box-caption">
+							<div class="project-category text-white-50">Category</div>
+							<div class="project-name">Project Name</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a class="portfolio-box"
+						href="assets/img/portfolio/02-thumbnail.jpg"> <img
+						class="img-fluid" src="assets/img/portfolio/02-thumbnail.jpg"
+						alt="" />
+						<div class="portfolio-box-caption">
+							<div class="project-category text-white-50">Category</div>
+							<div class="project-name">Project Name</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a class="portfolio-box"
+						href="assets/img/portfolio/03-thumbnail.jpg"> <img
+						class="img-fluid" src="assets/img/portfolio/03-thumbnail.jpg"
+						alt="" />
+						<div class="portfolio-box-caption">
+							<div class="project-category text-white-50">Category</div>
+							<div class="project-name">Project Name</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a class="portfolio-box"
+						href="assets/img/portfolio/04-thumbnail.jpg"> <img
+						class="img-fluid" src="assets/img/portfolio/04-thumbnail.jpg"
+						alt="" />
+						<div class="portfolio-box-caption">
+							<div class="project-category text-white-50">Category</div>
+							<div class="project-name">Project Name</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a class="portfolio-box"
+						href="assets/img/portfolio/05-thumbnail.jpg"> <img
+						class="img-fluid" src="assets/img/portfolio/05-thumbnail.jpg"
+						alt="" />
+						<div class="portfolio-box-caption">
+							<div class="project-category text-white-50">Category</div>
+							<div class="project-name">Project Name</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a class="portfolio-box"
+						href="assets/img/portfolio/06-thumbnail.jpg"> <img
+						class="img-fluid" src="assets/img/portfolio/06-thumbnail.jpg"
+						alt="" />
+						<div class="portfolio-box-caption p-3">
+							<div class="project-category text-white-50">Category</div>
+							<div class="project-name">Project Name</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- About-->
+	<section class="page-section" id="about">
+		<div class="container">
+			<div class="text-center">
+				<h2 class="section-heading text-uppercase">¿Qué ofrecemos?</h2>
+				<h3 class="section-subheading text-muted">Estos son algunos de nuestros
+					servicios</h3>
+			</div>
+			<ul class="timeline">
+				<li>
+					<div class="timeline-image">
+						<img class="rounded-circle img-fluid" src="assets/img/img-1.jpg"
+							alt="" />
+					</div>
+					<div class="timeline-panel">
+						<div class="timeline-heading">
+							<h4 class="subheading">Peluquería</h4>
+						</div>
+						<div class="timeline-body">
+							<p class="text-muted">Disfruta de nuestros servicios de
+								peluquería al mejor precio. Contamos con la última moda en
+								productos para que puedas seguir todas las tendencias.</p>
+						</div>
+					</div>
+				</li>
+				<li class="timeline-inverted">
+					<div class="timeline-image">
+						<img class="rounded-circle img-fluid" src="assets/img/img-2.jpg"
+							alt="" />
+					</div>
+					<div class="timeline-panel">
+						<div class="timeline-heading">
+							<h4 class="subheading">Maquillaje</h4>
+						</div>
+						<div class="timeline-body">
+							<p class="text-muted">Tanto para el día a día como para
+								ocasiones especiales, haremos que tu belleza natural alcance su
+								máximo exponente.</p>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="timeline-image">
+						<img class="rounded-circle img-fluid" src="assets/img/img-3.jpg"
+							alt="" />
+					</div>
+					<div class="timeline-panel">
+						<div class="timeline-heading">
+							<h4 class="subheading">Belleza</h4>
+						</div>
+						<div class="timeline-body">
+							<p class="text-muted">Especialistas en manicura. Pásate por
+								nuestro salón de belleza y no dudes en ponerte en nuestras
+								manos, para que las tuyas reluzcan como nunca.</p>
+						</div>
+					</div>
+				</li>
+				<li class="timeline-inverted">
+					<div class="timeline-image" style="background-color: #f62f2f;">
+						<h4>
+							Forma parte <br /> de <br /> Peluquería Rosy!
+						</h4>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</section>
+	<!-- Footer-->
+	<footer th:replace="plantilla/layout :: footer"> </footer>
+</body>
+</html>

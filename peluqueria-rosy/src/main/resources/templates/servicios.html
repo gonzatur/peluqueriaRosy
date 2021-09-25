@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/layout :: head">
+</head>
+<body>
+<style>
+.card {
+	box-shadow: 0px 4px 8px 0px #7986CB
+}
+
+#formReserva input {
+	text-align: center;
+}
+
+
+.datepicker {
+	background-color: white !important;
+	color: #2c2c2c !important;
+	padding: 10px !important
+}
+
+.datepicker table tr td.day:hover {
+	background-color: #a9d7ff !important;
+	opacity: 1
+}
+
+.datepicker table tr td.disabled:hover {
+	background-color: inherit !important;
+	opacity: 1
+}
+
+.datepicker table tr td.disabled {
+	color: #EBEBEB !important;
+	opacity: 1
+}
+
+.dow, .old-day, .day, .new-day {
+	width: 40px !important;
+	height: 40px !important;
+	border-radius: 0px !important
+}
+
+.prev:hover, .next:hover, .datepicker-switch:hover {
+	background-color: inherit !important;
+	opacity: 1
+}
+
+.cell {
+	border: 1px solid #BDBDBD;
+	margin: 2px;
+	cursor: pointer
+}
+
+.cell:hover {
+	border: 1px solid #3D5AFE
+}
+
+.cell.select {
+	background-color: #3D5AFE;
+	color: #fff
+}
+
+.modal {
+	padding-top: 125px; /* Location of the box */
+}
+
+table{
+    table-layout:fixed;
+}
+</style>
+	<header th:replace="plantilla/layout :: header"> </header>
+
+		<div class="container pt-5">
+			<a class="btn btn-success mb-3" th:href="@{/formServicio}"
+				th:text="'Crear servicio'" sec:authorize="hasRole('ROLE_ADMIN')"></a>
+			<div id="modal" class="modal">
+				<div class="container-fluid px-0 px-sm-4 mx-auto pt-15">
+					<div class="row justify-content-center mx-0" id="modelo">
+						<div class="col-lg-10">
+							<div class="card border-0">
+
+								<div id="formReserva" class="text-center">
+									<span class="close">&times;</span>
+									<div class="card-header bg-light">
+										<div
+											class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+											<input type="text" id="datepicker" class="datepicker"
+												placeholder="Seleccione fecha" name="date" readonly>
+										</div>
+									</div>
+									<div class="card-body p-3 p-sm-5">
+										<div class="row text-center mx-0" id="horas"></div>
+									</div>
+									<button class="btn btn-outline-primary m-2" id="reserva">Confirmar</button>
+										<button class="btn btn-primary d-lg-none m-2" id="loading" type="button" disabled>
+  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Espere por favor...
+</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="table-responsive-md card p-4 mb-5">
+												<h5 class="card-title" th:if="${categorias.size()>0}"
+					th:text="'Nuestros servicios'" style="text-align: center;"></h5>
+						<h6 class="card-title" th:if="${categorias.size()<1}"
+					th:text="'No existe ningún servicio en nuestra Base de Datos'"></h6>
+				<table th:each="categoria: ${categorias}"
+					th:if="${categoria.servicios.size()>0}"
+					class="table table-bordered table-hover">
+					<caption style="caption-side: top;" th:text=${categoria.definicion}></caption>
+					<thead>
+						<tr>
+							<th>Servicio</th>
+							<th>Descripción</th>
+							<th>Duración</th>
+							<th>Precio</th>
+							<th class="text-center" sec:authorize="!hasRole('ROLE_ADMIN')">Reservar</th>
+							<th class="text-center" sec:authorize="hasRole('ROLE_ADMIN')">Modificar</th>
+							<th class="text-center" sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="servicio: ${servicios}"
+							th:if="${servicio.categoria==categoria.id}">
+							<td th:text="${servicio.nombre}"></td>
+							<td th:text="${servicio.descripcion}"></td>
+							<td th:text="${servicio.obtenerDuracion()}"></td>
+							<td th:text="Desde +' '+ ${servicio.precio} + '€'"></td>
+							<td class="text-center" sec:authorize="!hasRole('ROLE_ADMIN')"><button type="button"
+									th:id="'btn' + ${servicio.id}"
+									class="btnRsv btn btn-success btn-sm">Reservar</button></td>
+							<td class="text-center" sec:authorize="hasRole('ROLE_ADMIN')"><a
+								th:href="@{/formServicio/} +${servicio.id}" th:text="Modificar"
+								class="btn btn-info btn-sm"></a></td>
+							<td class="text-center" sec:authorize="hasRole('ROLE_ADMIN')"><a
+								th:href="@{/eliminarS/} +${servicio.id}" th:text="Eliminar"
+								class="btn btn-danger btn-sm"
+								onclick="return confirm('¿Estás seguro de que quieres elimninar el servicio?')"></a></td>
+						</tr>
+					</tbody>
+				</table>			
+			</div>
+		</div>
+
+	<footer th:replace="plantilla/layout :: footer"> </footer>
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+
+	<script th:src="@{/js/bootstrap-datepicker.es.js}"></script>
+	<script>
+	$(document).ready(function() {
+		var modal = document.getElementById('modal');
+		var modelo = document.getElementById('modelo');
+		var date = new Date();
+		var diaSemana=date.getDay();
+		if(diaSemana==0){
+			date.setDate(date.getDate() + 1)
+		}
+		var day = date.getDate();
+		var month = date.getMonth() + 1;
+		var year = date.getFullYear();
+
+		var idServicio;
+		if(day<10){
+			day= `0${day}`;
+		}
+		if(month<10){
+			month=`0${month}`;
+		}
+		var fecha = `${day}-${month}-${year}`;
+
+		$.ajax({
+			url: "/servicios/" + fecha,
+			dataType: "json",
+			data: {
+				term: fecha
+			},
+			success: function(data) {
+				document.getElementById("datepicker").value = fecha;
+				if (data.length < 1) {
+					$('#horas').append("<div>No hay citas para el día " + fecha + ". Intente coger cita otro día</div>");
+					$('#reserva').remove();
+				} else {
+					$("#horas").parent().prepend("<p class='citasDisp text-primary'> Citas disponibles para el día " + fecha + "</p>");
+				}
+				$.each(data, function(index) {
+					$('#horas').append("<div class='col-md-2 col-4 my-1 px-2' id='a" + data[index] + "'><div class='cell py-1'>" + data[index] + "</div></div>");
+				});
+			},
+		});
+		$('.datepicker').datepicker({
+			format: 'dd-mm-yyyy',
+			autoclose: true,
+			startDate: new Date(),
+			daysOfWeekDisabled: [0],
+			language: "es",
+			maxDate: +30
+		}).on('changeDate', function(e) {
+			$.ajax({
+				url: "/servicios/" + e.format(),
+				dataType: "json",
+				data: {
+					term: e.format()
+				},
+				success: function(data) {
+					var node = document.getElementById('horas');
+					while (node.firstChild) {
+						node.removeChild(node.firstChild);
+					}
+					if (data.length < 1) {
+						$('#horas').append("<div>No hay citas para el día " + e.format() + ". Intente coger cita otro día</div>");
+						$('#reserva').remove();
+						$('.citasDisp').remove();
+					} else {
+						$('#reserva').remove();
+						$('.citasDisp').remove();
+						$('.citasDisp1').remove();
+						var servicio = $(".servicio").parent().parent().children(':first-child').html();
+						$('#formReserva').append("<button type='button' class='btn btn-outline-primary m-1 ' id='reserva'>Confirmar</button>");
+						$("#horas").parent().prepend("<p class='citasDisp text-primary'> Citas disponibles para el día " + e.format() + "</p>");
+						$("#horas").parent().prepend("<p class='citasDisp1 text-primary'> Servicio: " + servicio + "</p>");
+					}
+					$.each(data, function(index) {
+						$('#horas').append("<div class='col-md-2 col-4 my-1 px-2' id='a" + data[index] + "'><div class='cell py-1'>" + data[index] + "</div></div>");
+					});
+				},
+			});
+		});
+		$(document).on('click', '.cell', function() {
+			$('.cell').removeClass('select');
+			$(this).addClass('select');
+		});
+		$(document).on('click', '.close', function() {
+			$("#modal").css("display", "none");
+		});
+		window.onclick = function(event) {
+			if (event.target == modal || event.target == modelo) {
+				$("#modal").css("display", "none");
+			}
+		}
+		$(document).on('click', '.btnRsv', function() {
+			var logout = document.getElementById("logoutForm");
+			if (logout) {
+				$("#modal").css("display", "block");
+				$('.citasDisp1').remove();
+				idServicio = $(this).attr('id');
+				var id = $(this).attr('id');
+				var servicio = $(this).parent().parent().children(':first-child').html();
+				$(this).addClass("servicio");
+				$("#horas").parent().prepend("<p class='citasDisp1 text-primary'> Servicio: " + servicio + "</p>");
+			} else {
+				window.location.href = '/login';
+			}
+		});
+		$(document).on('click', '#reserva', function() {
+				var hora = document.getElementsByClassName("select");
+				if(hora.length>0){
+					$(this).addClass("d-lg-none");
+					$("#loading").removeClass("d-lg-none");
+				}
+			var valorFecha = document.getElementById("datepicker").value;
+			var valorHora;
+			if (valorFecha != "") {
+				if (hora.length < 1) {
+					alert("Seleccione hora para poder reserver")
+				} else {
+					valorHora = hora[0].innerText;
+					var servNum = idServicio.match(/\d+/)[0];
+					var datos = servNum + "*" + valorFecha + "*" + valorHora;
+					$.ajax({
+						url: "/servicios/reserva/" + datos,
+						dataType: "json",
+						data: {
+							term: datos
+						},
+						complete: function() {
+							window.location.replace('/reserva/');
+						}
+					});
+				}
+			} else {
+				alert("Seleccione fecha para poder reservar");
+			}
+		});
+	});
+	</script>
+</body>
+</html>

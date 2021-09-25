@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/layout :: head">
+</head>
+<body>
+	<header th:replace="plantilla/layout :: header"> </header>
+	<main role="main">
+
+		<div class="album py-5">
+			<div class="container">
+				<a class="btn btn-success mb-3" th:href="@{/formProducto}"
+					th:text="'Crear producto'" sec:authorize="hasRole('ROLE_ADMIN')"></a>
+
+				<div class="card p-4">
+				<h6 class="card-title" th:if="${productos.getTotalElements()<1}"
+					th:text="'No existe ningún producto en nuestra Base de Datos'"></h6>
+					<div th:if="${productos.getTotalElements()>0}">
+						<h5 class="card-title" th:if="${productos.getTotalElements()>0}"
+							th:text="'Nuestro catálogo de productos'"
+							style="text-align: center;"></h5>
+						<nav th:replace="paginatorNav :: paginator"></nav>
+						
+						<div class="row">
+
+							<div class="col-md-4" th:each="producto: ${productos}">
+								<div class="card mb-4 shadow-sm p-3">
+									<p class="text-center m-2" th:text=${producto.nombre}></p>
+									<img th:if="${#strings.length(producto.foto)>0}"
+										th:src="@{'/uploads/' + ${producto.foto}}"
+										class="bd-placeholder-img card-img-top" width="100%"
+										th:alt="${producto.foto}" height="290" role="img" /> <img
+										th:if="${#strings.length(producto.foto)<1}"
+										th:src="@{'/images/no-image.png'}"
+										class="bd-placeholder-img card-img-top" width="100%"
+										height="290" role="img" />
+
+									<div class="card-body">
+										<p class="card-text" th:text=${producto.descripcion} />
+										<div class="d-flex justify-content-between align-items-right">
+											<p class="text-muted font-weight-bold"
+												th:text=${producto.precio}></p>
+										</div>
+										<div class="d-flex justify-content-between"
+											sec:authorize="hasRole('ROLE_ADMIN')">
+											<a th:href="@{/formProducto/} +${producto.id}"
+												th:text="Modificar" class="btn btn-info btn-sm"></a> <a
+												th:href="@{/eliminarPro/} +${producto.id}"
+												th:text="Eliminar" class="btn btn-danger btn-sm"
+												onclick="return confirm('¿Estás seguro de que quieres elimninar el producto?')"></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<nav th:replace="paginatorNav :: paginator"></nav>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</main>
+
+	<footer th:replace="plantilla/layout :: footer"> </footer>
+</body>
+</html>

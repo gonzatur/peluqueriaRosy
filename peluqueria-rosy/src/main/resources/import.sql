@@ -1,0 +1,81 @@
+INSERT INTO clientes(id, nombre, apellido, email, telefono, password, enabled) VALUES (1000, 'Cliente', 'no registrado', '', '', '',0);
+INSERT INTO clientes(id, nombre, apellido, email, telefono, password, enabled) VALUES (1, 'Gonzalo', 'Mejias', 'gonzalodaw@gmail.com', '671374163', '$2a$10$uNCpOzsXokV7nOoCt4JfBuJhXc.X7MHjTc5aSVaj/cMn4rJwtFwGa',1);
+INSERT INTO clientes(id, nombre, apellido, email, telefono, password, enabled) VALUES (2, 'Rosi', 'Jimenez', 'admin@gmail.com', '615988425', '$2a$10$uNCpOzsXokV7nOoCt4JfBuJhXc.X7MHjTc5aSVaj/cMn4rJwtFwGa',1);
+INSERT INTO clientes(id, nombre, apellido, email, telefono, password, enabled) VALUES (3, 'Paco', 'Gutierrez', 'paco@gmail.com', '675489215', '$2a$10$uNCpOzsXokV7nOoCt4JfBuJhXc.X7MHjTc5aSVaj/cMn4rJwtFwGa',1);
+INSERT INTO clientes(id, nombre, apellido, email, telefono, password, enabled) VALUES (4, 'Juan', 'Sanchez', 'juan@gmail.com', '678554995', '$2a$10$uNCpOzsXokV7nOoCt4JfBuJhXc.X7MHjTc5aSVaj/cMn4rJwtFwGa',0);
+INSERT INTO clientes(id, nombre, apellido, email, telefono, password, enabled) VALUES (5, 'Antonio', 'Muñoz', 'antonio@gmail.com', '632258746', '$2a$10$uNCpOzsXokV7nOoCt4JfBuJhXc.X7MHjTc5aSVaj/cMn4rJwtFwGa',1);
+INSERT INTO clientes(id, nombre, apellido, email, telefono, password, enabled) VALUES (6, 'Isa', 'Fernandez', 'isa@gmail.com', '655987412', '$2a$10$uNCpOzsXokV7nOoCt4JfBuJhXc.X7MHjTc5aSVaj/cMn4rJwtFwGa',0);
+
+INSERT INTO authorities(cliente_id, authority) VALUES (1000,'ROLE_USER');
+INSERT INTO authorities(cliente_id, authority) VALUES (1,'ROLE_USER');
+INSERT INTO authorities(cliente_id, authority) VALUES (2,'ROLE_ADMIN');
+INSERT INTO authorities(cliente_id, authority) VALUES (3,'ROLE_USER');
+INSERT INTO authorities(cliente_id, authority) VALUES (4,'ROLE_USER');
+INSERT INTO authorities(cliente_id, authority) VALUES (5,'ROLE_USER');
+INSERT INTO authorities(cliente_id, authority) VALUES (6,'ROLE_USER');
+
+INSERT INTO categoria(definicion) VALUES ('Peluquería');
+INSERT INTO categoria(definicion) VALUES ('Depilación');
+INSERT INTO categoria(definicion) VALUES ('Belleza');
+INSERT INTO categoria(definicion) VALUES ('Hola');
+
+INSERT INTO productos(nombre, descripcion, precio, foto) VALUES ('Gomina', 'Gomina para el pelo', '2.05', 'gomina.jpg');
+INSERT INTO productos(nombre, descripcion, precio, foto) VALUES ('Laca', 'Laca para el pelo', '2.87', 'laca.jpg');
+INSERT INTO productos(nombre, descripcion, precio, foto) VALUES ('Espuma', 'Espuma para el pelo', '1.45', '');
+INSERT INTO productos(nombre, descripcion, precio, foto) VALUES ('Crema', 'Crema para el pelo', '3.95', 'crema.jpg');
+INSERT INTO productos(nombre, descripcion, precio, foto) VALUES ('Pomada', 'Pomada para el pelo', '4.07', 'gomina.jpg');
+INSERT INTO productos(nombre, descripcion, precio, foto) VALUES ('Aerosol', 'Aerosol para el pelo', '6.20', '');
+INSERT INTO productos(nombre, descripcion, precio, foto) VALUES ('Cepillo', 'Cepillo para el pelo', '7.05', 'pomada.jpg');
+
+INSERT INTO servicios(nombre, descripcion, precio, horas, minutos, categoria_id) VALUES ('Mechas', 'Te hacemos las mechas', 8, 2, 40, 1);
+INSERT INTO servicios(nombre, descripcion, precio, horas, minutos, categoria_id) VALUES ('Tinte', 'Te echamos el tinte', 3, 0, 40, 2);
+INSERT INTO servicios(nombre, descripcion, precio, horas, minutos, categoria_id) VALUES ('Corte', 'Te cortamos', 4, 1, 40, 3);
+INSERT INTO servicios(nombre, descripcion, precio, horas, minutos, categoria_id) VALUES ('Peinado', 'Te peinamos', 5, 1, 40, 4);
+INSERT INTO servicios(nombre, descripcion, precio, horas, minutos, categoria_id) VALUES ('Cosa', 'Cosas', 8, 2, 40, 1);
+INSERT INTO servicios(nombre, descripcion, precio, horas, minutos, categoria_id) VALUES ('Cosa2', 'Cosas', 3, 0, 40, 2);
+INSERT INTO servicios(nombre, descripcion, precio, horas, minutos, categoria_id) VALUES ('Cosa3', 'Cosas', 4, 1, 40, 3);
+
+INSERT INTO reservas(cliente_id, dia, hora, servicio_id) VALUES (1, '30-09-2020', '17:00', 3);
+INSERT INTO reservas(cliente_id, dia, hora, servicio_id) VALUES (2, '04-09-2020', '17:00', 2);
+INSERT INTO reservas(cliente_id, dia, hora, servicio_id) VALUES (4, '30-09-2020', '12:30', 1);
+INSERT INTO reservas(cliente_id, dia, hora, servicio_id) VALUES (3, '29-09-2020', '11:15', 4);
+
+INSERT INTO ocupacion(id,dia,hora) VALUES ('04-09-2020/10:00','04-09-2020','10:00',1);
+INSERT INTO ocupacion(id,dia,hora) VALUES ('04-09-2020/11:00','04-09-2020','11:00',1);
+
+INSERT INTO disponible(hora, tramo) VALUES ('09:00', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('09:15', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('09:30', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('09:45', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('10:00', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('10:15', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('10:30', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('10:45', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('11:00', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('11:15', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('11:30', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('11:45', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('12:00', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('12:15', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('12:30', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('12:45', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('13:00', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('13:15', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('13:30', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('13:45', 0);
+INSERT INTO disponible(hora, tramo) VALUES ('17:00', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('17:15', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('17:30', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('17:45', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('18:00', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('18:15', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('18:30', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('18:45', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('19:00', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('19:15', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('19:30', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('19:45', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('20:00', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('20:15', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('20:30', 1);
+INSERT INTO disponible(hora, tramo) VALUES ('20:45', 1);

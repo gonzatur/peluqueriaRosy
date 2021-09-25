@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/layout :: head">
+</head>
+<body>
+
+	<header th:replace="plantilla/layout :: header"> </header>
+
+	<div class="container">
+		<div class="row py-5 mt-4 align-items-center">
+			<!-- For Demo Purpose -->
+			<div class="col-md-5 pr-lg-5 mb-5 mb-md-0">
+				<img src="assets/img/form.jpg" alt=""
+					class="img-fluid mb-3 d-none d-md-block">
+			</div>
+
+			<!-- Registeration Form -->
+			<div class="col-md-7 col-lg-6 ml-auto">
+				<div th:object="${cliente} " th:remove="tag">
+					<div th:if="${#fields.hasErrors('*')}"
+						class="aler alert-danger p-3 mb-3">
+						<p th:each="err: ${#fields.errors('*')}" th:text="${err}"></p>
+					</div>
+
+				</div>
+
+				<form th:action="@{/form}" th:object=${cliente} method="post">
+					<div class="logo mb-3">
+						<div class="col-md-12 text-center">
+							<h2>Registrar</h2>
+						</div>
+					</div>
+					<div class="row">
+
+						<!-- First Name -->
+						<div class="input-group col-lg-6 mb-4">
+							<div class="input-group-prepend">
+								<span
+									th:classappend="${#fields.hasErrors('nombre') ? 'alert-danger' : ''}"
+									class="input-group-text bg-white border-md border-0">
+									<i class="fa fa-user text-muted"></i>
+								</span>
+							</div>
+							<input id="nombre" type="text" placeholder="Nombre"
+								th:field="*{nombre}" class="form-control bg-white border-md"
+								th:errorclass="'form-control alert-danger'" autofocus />
+						</div>
+
+						<!-- Last Name -->
+						<div class="input-group col-lg-6 mb-4">
+							<div class="input-group-prepend">
+								<span
+									th:classappend="${#fields.hasErrors('apellido') ? 'alert-danger' : ''}"
+									class="input-group-text bg-white border-md border-0">
+									<i class="fa fa-user text-muted"></i>
+								</span>
+							</div>
+							<input id="apellido" type="text" th:field="*{apellido}"
+								placeholder="Apellidos" class="form-control bg-white border-md"
+								th:errorclass="'form-control alert-danger'" />
+						</div>
+
+						<!-- Email Address -->
+						<div class="input-group col-lg-12 mb-4">
+							<div class="input-group-prepend">
+								<span
+									th:classappend="${#fields.hasErrors('email') ? 'alert-danger' : ''}"
+									class="input-group-text bg-white border-md border-0">
+									<i class="fa fa-envelope text-muted"></i>
+								</span>
+							</div>
+							<input id="email" type="email" th:field="*{email}"
+								placeholder="E-mail" class="form-control bg-white border-md"
+								th:errorclass="'form-control alert-danger'" />
+						</div>
+
+						<!-- Phone Number -->
+						<div class="input-group col-lg-12 mb-4">
+							<div class="input-group-prepend">
+								<span
+									th:classappend="${#fields.hasErrors('telefono') ? 'alert-danger' : ''}"
+									class="input-group-text bg-white border-md border-0">
+									<i class="fa fa-phone-square text-muted"></i>
+								</span>
+							</div>
+							<input id="telefono" type="tel" th:field="*{telefono}"
+								placeholder="Número de teléfono"
+								class="form-control bg-white border-md pl-3"
+								th:errorclass="'form-control alert-danger'" />
+						</div>
+
+						<!-- Password -->
+						<div class="input-group col-lg-6 mb-4">
+							<div class="input-group-prepend">
+								<span
+									th:classappend="${#fields.hasErrors('password') ? 'alert-danger' : ''}"
+									class="input-group-text bg-white border-md border-0">
+									<i class="fa fa-lock text-muted"></i>
+								</span>
+							</div>
+							<input id="password" type="password" th:field="*{password}"
+								placeholder="Contraseña"
+								class="form-control bg-white border-md"
+								th:errorclass="'form-control alert-danger'" />
+						</div>
+
+						<!-- Password Confirmation -->
+						<div class="input-group col-lg-6 mb-4">
+							<div class="input-group-prepend">
+								<span
+									th:classappend="${#fields.hasErrors('passwordRepeat') ? 'alert-danger' : ''}"
+									class="input-group-text bg-white border-md border-0">
+									<i class="fa fa-lock text-muted"></i>
+								</span>
+							</div>
+							<input id="passwordRepeat" type="password"
+								th:field="*{passwordRepeat}" placeholder="Repita contraseña"
+								class="form-control bg-white border-md"
+								th:errorclass="'form-control alert-danger'" />
+						</div>
+
+						<!-- Submit Button -->
+						<div class="form-group col-lg-12 mx-auto mb-0">
+							<input type="submit" value="Crear cuenta" id="crear"
+								class="btn btn-primary btn-block py-2 font-weight-bold" />
+						</div>
+
+						<!-- Divider Text -->
+						<div
+							class="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
+							<div class="border-bottom w-100 ml-5"></div>
+							<span class="px-2 small text-muted font-weight-bold text-muted">OR</span>
+							<div class="border-bottom w-100 mr-5"></div>
+						</div>
+
+						<!-- Already Registered -->
+						<div class="text-center w-100">
+							<p class="text-muted font-weight-bold">
+								¿Ya estás registrado? <a th:href="@{/login}"
+									class="text-primary ml-2">Iniciar sesión</a>
+							</p>
+						</div>
+
+					</div>
+					<input type="hidden" th:field="*{id}" />
+				</form>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="plantilla/layout :: footer"> </footer>
+
+</body>
+</html>

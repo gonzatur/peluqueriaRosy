@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/layout :: head">
+</head>
+<body>
+
+	<header th:replace="plantilla/layout :: header"> </header>
+
+	<div class="container py-4">
+
+		<div class="card bg-gray">
+			<div class="card-header">Estamos en categorías</div>
+			<div class="card-body">
+
+				<form th:action="@{/formCategoria}" th:object=${categoria}
+					method="post">
+					<ul class="list-group">
+						<li class="list-group-item"><div class="form-group row">
+								<label for="nombre" class="col-sm-2 col-form-label">Nombre de categoría</label>
+								<div class="col-sm-6">
+									<input type="text" th:field="*{definicion}" class="form-control" />
+								</div>
+							</div></li>
+								<li class="list-group-item">
+							<div class="form-group row">
+								<div class="col-sm-6">
+									<input type="submit" value="Crear categoría"
+										class="btn btn-success" />
+								</div>
+
+							</div>
+						</li>
+					</ul>
+					<input type="hidden" th:field="*{id}" />
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="plantilla/layout :: footer"> </footer>
+</body>
+</html>

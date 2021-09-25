@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/layout :: head">
+</head>
+<body>
+	<header th:replace="plantilla/layout :: header"> </header>
+
+	<div class="container py-4">
+
+		<div class="card">
+			<div class="card-header list-group-item list-group-item-primary">Crear producto</div>
+			<div class="card-body">
+				<div th:if="${producto.id>0}">
+					<img th:if="${#strings.length(producto.foto)>0}"
+						class="imag-thumbnail rounded float-left mr-3"
+						style="max-width: 25%;" th:src="@{'/uploads/' + ${producto.foto}}"
+						th:alt="${producto.foto}">
+				</div>
+				<form th:action="@{/formProducto}" th:object=${producto}
+					method="post" enctype="multipart/form-data">
+					<ul class="list-group">
+						<li class="list-group-item"><div class="row">
+								<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+								<div class="col-sm-6">
+									<input type="text" th:field="*{nombre}" class="form-control" />
+								</div>
+							</div></li>
+						<li class="list-group-item"><div class="row">
+								<label for="descripcion" class="col-sm-2 col-form-label">Descripción</label>
+								<div class="col-sm-6">
+									<input type="text" th:field="*{descripcion}"
+										class="form-control" />
+								</div>
+							</div></li>
+						<li class="list-group-item"><div class="row">
+								<label for="precio" class="col-sm-2 col-form-label">Precio</label>
+								<div class="col-sm-6">
+									<input type=number step=0.01 th:field="*{precio}"
+										class="form-control" />
+								</div>
+							</div></li>
+						<li class="list-group-item">
+							<div class="row">
+								<label for="file" class="col-sm-2 col-form-label">Foto</label>
+								<div class="col-sm-6">
+									<input type="file" class="form-control" name="file" />
+								</div>
+							</div>
+						</li>
+
+						<li class="list-group-item">
+							<div class="row">
+								<div class="col-sm-6">
+									<input type="submit" value="Crear producto"
+										class="btn btn-primary py-2 font-weight-bold" />
+								</div>
+
+							</div>
+						</li>
+					</ul>
+
+					<input type="hidden" th:field="*{id}" />
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<footer th:replace="plantilla/layout :: footer"> </footer>
+
+</body>
+</html>

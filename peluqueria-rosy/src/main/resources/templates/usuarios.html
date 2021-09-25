@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/layout :: head">
+</head>
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+	rel="stylesheet" />
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/awesome-bootstrap-checkbox/1.0.2/awesome-bootstrap-checkbox.min.css"
+	rel="stylesheet" />
+<style>
+.checkbox input[type=checkbox]:checked+label::after {
+	margin-top: 3.7px !important;
+}
+
+.checkbox label::before {
+	margin-top: 3.7px !important;
+}
+
+.checkbox {
+	padding-left: 0 !important;
+}
+
+</style>
+<body>
+
+	<header th:replace="plantilla/layout :: header"> </header>
+
+	<div class="container py-4">
+		<div class="card">
+			<div class="card-header list-group-item list-group-item-primary" th:text="'Mantenimiento de clientes'"></div>
+			<div class="card-body">
+			<h6 class="card-title" th:if="${clientes.size()<2}"
+					th:text="'No existe ningún cliente en nuestra Base de Datos'"></h6>
+				<table class="table table-striped table-sm" th:if="${clientes.size()>1}">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Email</th>
+							<th>Nombre</th>
+							<th>Apellidos</th>
+							<th>Teléfono</th>
+							<th>Habilitar</th>
+							<th>Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="cliente: ${clientes}" th:if="${cliente.id<1000}">
+							
+							<td><a th:href="@{/usuarios/ver/} + ${cliente.id}" class="btn-xs btn btn-info" th:text=${cliente.id}></a></td>
+							<td th:text=${cliente.email}></td>
+							<td th:text=${cliente.nombre}></td>
+							<td th:text=${cliente.apellido}></td>
+							<td th:text=${cliente.telefono}></td>
+							<td>
+								<div class="checkbox checkbox-success"
+									th:if="${cliente.enabled == true}">
+									<input th:id="'checka' + ${cliente.id}" class="styled"
+										type="checkbox" value="1" checked> <label
+										class="text-success font-weight-bold pointer"
+										th:for="'checka' + ${cliente.id}"> Desbloqueado </label>
+								</div>
+								<div class="checkbox checkbox-danger"
+									th:if="${cliente.enabled == false}">
+									<input th:id="'checkb' + ${cliente.id}" class="styled"
+										type="checkbox" value="0" checked> <label
+										class="text-danger font-weight-bold pointer"
+										th:for="'checkb' + ${cliente.id}"> Bloqueado </label>
+								</div>
+							</td>
+							<td><a th:href="@{/eliminarC/} +${cliente.id}"
+								class="btn btn-outline-danger btn-sm" th:text="'Eliminar usuario'"
+								onclick="return confirm('¿Seguro que desea eliminar este usuario?')"></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="plantilla/layout :: footer"> </footer>
+	<script>
+		$(".styled").change(function() {
+			if ($(this).val() == 0) {
+				$(this).val(1)
+				$(this).parent().removeClass("checkbox-danger");
+				$(this).parent().addClass("checkbox-success");
+				$(this).parent().children().last().removeClass("text-danger");
+				$(this).parent().children().last().addClass("text-success");
+				$(this).parent().children().last().text("Desbloqueado")
+				$(this).prop('checked', true);
+
+				var datos = $(this).val() + "A-" + $(this).attr('id');
+				$.ajax({
+					url : "/usuarios/" + datos,
+					dataType : "json",
+					data : {
+						term : datos
+					}
+				});
+
+			} else {
+				$(this).val(0);
+				$(this).parent().removeClass("checkbox-success");
+				$(this).parent().addClass("checkbox-danger");
+				$(this).parent().children().last().removeClass("text-success");
+				$(this).parent().children().last().addClass("text-danger");
+				$(this).parent().children().last().text("Bloqueado")
+				$(this).prop('checked', true);
+				var datos = $(this).val() + "A-" + $(this).attr('id');
+				$.ajax({
+					url : "/usuarios/" + datos,
+					dataType : "json",
+					data : {
+						term : datos
+					}
+				});
+			}
+		});
+	</script>
+</body>
+</html>

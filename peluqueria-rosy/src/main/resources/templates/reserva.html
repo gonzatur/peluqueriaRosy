@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/layout :: head">
+</head>
+<body>
+	<header th:replace="plantilla/layout :: header"> </header>
+	<div class="container py-4">
+		<div class="card">
+			<div class="card-header list-group-item list-group-item-primary"
+				th:text="${titulo}"></div>
+			<div class="card-body">
+				<h6 class="card-title" th:if="${cliente.reservas.size()<1}"
+					th:text="'No tiene reservas realizadas'"></h6>
+				<table class="table table-bordered table-hover my-4"
+					th:if="${cliente.reservas.size()>0}">
+					<thead>
+						<tr>
+							<th>Día</th>
+							<th>Hora</th>
+							<th>Servicio</th>
+							<th>Cancelar reserva</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="reserva: ${cliente.reservas}">
+							<td th:text=${reserva.dia}></td>
+							<td th:text=${reserva.hora}></td>
+							<td th:text=${reserva.servicio.nombre}></td>
+							<td><a th:href="@{/reserva/eliminar/} +${reserva.id}"
+								class="btn btn-sm btn-danger" th:text="'Cancelar reserva'"
+								onclick="return confirm('¿Seguro que desea eliminar la reserva?')"></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="plantilla/layout :: footer"> </footer>
+</body>
+</html>

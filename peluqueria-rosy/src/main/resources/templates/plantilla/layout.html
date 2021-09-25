@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head">
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<!-- Font Awesome icons (free version)-->
+<script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"
+	crossorigin="anonymous"></script>
+<!-- Google fonts-->
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+	rel="stylesheet" type="text/css" />
+<link
+	href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic"
+	rel="stylesheet" type="text/css" />
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700"
+	rel="stylesheet" type="text/css" />
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"
+	rel="stylesheet" />
+<!-- Core theme CSS (includes Bootstrap)-->
+<link th:href="@{/css/styles.css}" rel="stylesheet" />
+</head>
+<body>
+
+	<header th:fragment="header" class="cabecera">
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top"
+			id="mainNav">
+			<div class="container">
+				<a class="navbar-brand js-scroll-trigger" th:href="@{/}">Peluqueria
+					Rosy</a>
+				<button class="navbar-toggler navbar-toggler-right" type="button"
+					data-toggle="collapse" data-target="#navbarResponsive"
+					aria-controls="navbarResponsive" aria-expanded="false"
+					aria-label="Toggle navigation">
+					Menu <i class="fas fa-bars ml-1"></i>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarResponsive">
+					<ul class="navbar-nav text-uppercase ml-auto">
+						<li class="nav-item"><a class="nav-link js-scroll-trigger"
+							th:href="@{/productos}">Productos</a></li>
+						<li class="nav-item"><a class="nav-link js-scroll-trigger"
+							th:href="@{/servicios}">Servicios</a></li>
+							<li class="nav-item" sec:authorize="hasRole('ROLE_USER')"><a class="nav-link js-scroll-trigger"
+							th:href="@{/reserva}">Mis reservas</a></li>
+							<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Administración </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" th:href="@{/usuarios}" id="dropdown">Usuarios</a> <a
+								class="dropdown-item" th:href="@{/peluqueria}" id="dropdown">Peluquería</a>
+						</div></li>
+
+					</ul>
+
+					<ul class="navbar-nav text-uppercase ml-auto">
+						<li class="nav-item navbar-right"
+							sec:authorize="!isAuthenticated()"><a
+							class="nav-link js-scroll-trigger" th:href="@{/form}">Hazte
+								cliente</a></li>
+						<li class="nav-item navbar-right"
+							sec:authorize="!isAuthenticated()"><a
+							class="nav-link js-scroll-trigger" th:href="@{/login}">Iniciar
+								sesión</a></li>
+								
+								<li class="nav-item dropdown" sec:authorize="isAuthenticated()"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> <span class="logeado"
+								sec:authentication="name"></span></a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<button class="dropdown-item" data-target="#pwdModal2"
+									data-toggle="modal">Cambiar contraseña</button>
+								<form id="logoutForm" th:action="@{/logout}" method="post">
+									<button class="dropdown-item"
+										onclick="document.getElementById(''#logoutForm').submit();"
+										type="submit">Salir</button>
+								</form>
+						</div></li>
+								
+					
+					</ul>
+				</div>
+			</div>
+
+			<div id="pwdModal2" class="modal fade" tabindex="-1" role="dialog"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="cabeza" style="padding: 20px">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">×</button>
+							<h4 class="text-center">Cambiar contraseña</h4>
+						</div>
+						<div class="modal-body">
+							<div class="col-md-12">
+								<div class="panel panel-default">
+									<div class="panel-body">
+										<div>
+											<form th:action="@{/changePassword}" method="post">
+												<div class="panel-body">
+													<fieldset>
+														<div class="form-group">
+															<label for="passwordActual" class="text-md-left">Contraseña
+																actual</label> <input class="form-control input-lg"
+																placeholder="Introduzca su contraseña actual"
+																id="passwordActual" name="passwordActual"
+																type="password" required>
+														</div>
+														<div class="form-group">
+															<label for="passwordNew">Nueva contraseña</label> <input
+																class="form-control input-lg"
+																placeholder="Introduzca nueva contraseña"
+																id="passwordNew" name="passwordNew" type="password"
+																required>
+														</div>
+														<div class="form-group">
+															<label for="passwordNewR">Repita contraseña</label> <input
+																class="form-control input-lg"
+																placeholder="Introduzca de nuevo la contraseña"
+																id="passwordNewR" name="passwordNewR" type="password"
+																required>
+														</div>
+														<input class="btn btn-lg btn-primary btn-block"
+															value="Cambiar contraseña" type="submit">
+													</fieldset>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="col-md-12 text-center">
+								<button class="btn btn-outline-danger" data-dismiss="modal"
+									aria-hidden="true">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+			<div class="alert alert-success" th:if="${success != null}"
+				th:text="${success}" style="margin-top:5.8rem;"></div>
+			<div class="alert alert-danger" th:if="${error != null}"
+				th:text="${error}" style="margin-top:5.8rem;"></div>
+			<div class="alert alert-warning" th:if="${warning != null}"
+				th:text="${warning}" style="margin-top:5.8rem;"></div>
+			<div class="alert alert-info" th:if="${info != null}"
+				th:text="${info}" style="margin-top:5.8rem;"></div>
+	</header>
+
+	<footer th:fragment="footer" class="footer pb-4">
+		<!-- Contact-->
+		<section class="page-section" id="contact">
+			<div class="container">
+				<div class="text-center">
+					<h2 class="section-heading text-uppercase">Contáctanos</h2>
+					<h3 class="section-subheading" style="color:#ffb5b5;">Responderemos su
+						mensaje lo antes posible</h3>
+				</div>
+				<form id="contactForm" name="sentMessage" novalidate="novalidate"
+					th:action="@{/contactar}" method="post">
+					<div class="row align-items-stretch mb-5">
+						<div class="col-md-6">
+							<div class="form-group">
+								<input class="form-control" id="name" type="text" name="name"
+									placeholder="Nombre *" required="required"
+									data-validation-required-message="Por favor, introduzca su nombre" />
+								<p class="help-block text-danger"></p>
+							</div>
+							<div class="form-group">
+								<input class="form-control" id="email" type="email" name="email"
+									placeholder="Email *" required="required"
+									data-validation-required-message="Por favor, introduzca su email" />
+								<p class="help-block text-danger"></p>
+							</div>
+							<div class="form-group mb-md-0">
+								<input class="form-control" id="phone" type="tel" name="phone"
+									placeholder="Teléfono *" required="required"
+									data-validation-required-message="Por favor, introduzca su teléfono" />
+								<p class="help-block text-danger"></p>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group form-group-textarea mb-md-0">
+								<textarea class="form-control" id="message" name="message"
+									placeholder="Tu mensaje *" required="required"
+									data-validation-required-message="Por favor, escriba su mensaje"></textarea>
+								<p class="help-block text-danger"></p>
+							</div>
+						</div>
+					</div>
+					<div class="text-center">
+						<div id="success"></div>
+						<button class="btn btn-primary btn-xl text-uppercase"
+							id="sendMessageButton" type="submit">Enviar mensaje</button>
+						<button class="btn btn-primary btn-xl d-none" id="loading"
+							type="button" disabled>
+							<span class="spinner-border spinner-border-sm" role="status"
+								aria-hidden="true"></span> Espere por favor...
+						</button>
+					</div>
+				</form>
+			</div>
+		</section>
+		<div class="container pt-3">
+			<div class="row align-items-center">
+				<div class="col-lg-4 text-lg-left">Copyright © Peluquería Rosy
+					2020</div>
+				<div class="col-lg-4 my-3 my-lg-0">
+					<a class="btn btn-dark btn-social mx-2" href="#!"><i
+						class="fab fa-twitter"></i></a> <a
+						class="btn btn-dark btn-social mx-2" href="#!"><i
+						class="fab fa-facebook-f"></i></a> <a
+						class="btn btn-dark btn-social mx-2" href="#!"><i
+						class="fab fa-linkedin-in"></i></a>
+				</div>
+				<div class="col-lg-4 text-lg-right">
+					<a class="mr-3" href="#!">Política de privacidad</a> <a href="#!">Términos
+						de uso</a>
+				</div>
+			</div>
+		</div>
+		<!-- Bootstrap core JS-->
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+		<!-- Third party plugin JS-->
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+		<!-- Contact form JS-->
+		<script th:src="@{/js/mail/jqBootstrapValidation.js}"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+		<!-- Core theme JS-->
+		<script th:src="@{/js/mail/scripts.js}"></script>
+		<script th:src="@{/js/mail/contact_me.js}"></script>
+		<script>
+		var x = document.getElementsByClassName("alert");
+		if(x.length>0){
+			$(".cabecera").removeClass("cabecera");
+		}
+		
+		</script>
+
+	</footer>
+</body>
+</html>
